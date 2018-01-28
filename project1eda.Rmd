@@ -32,7 +32,7 @@ my.data$Date<-as.Date(my.data$Date, format="%d/%m/%Y")
 my.data <- subset(my.data,Date >= as.Date("2007/2/1") & Date <= as.Date("2007-2-2"))
 
 
-#Preparing more complete date
+#Preparing more new variable (date2)
 my.data$date2<-paste(my.data$Date,my.data$Time)
 my.data$date2<-as.POSIXct(my.data$date2)
 
@@ -48,6 +48,7 @@ str(my.data)
 
 hist(my.data$Global_active_power, main="Global Active Power", xlab = "Global Active Power (kilowatts)", col="red")
 
+plot
 ## Save
   dev.copy(png,"plot1.png", width=480, height=480)
   dev.off()
@@ -80,8 +81,9 @@ plot(Sub_metering_1~date2, type="l",xlab="", ylab="Global Active Power (kilowatt
 
       })
   
-legend("topright", col=c("black", "red", "blue"), lwd=c(1,1,1), 
-         c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
+legend("topright", col=c("black", "red", "blue"), 
+       lwd=c(1,1,1), 
+       c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
   
   #Save
   dev.copy(png, file="plot3.png", height=480, width=480)
@@ -93,17 +95,22 @@ legend("topright", col=c("black", "red", "blue"), lwd=c(1,1,1),
 
 ```{r plot4}
 
-par(mfrow=c(2,2), mar=c(4,4,2,1), oma=c(0,0,2,0))
+par(mfrow=c(2,2), mar=c(3,3,2,1))
   with(my.data, {
-    plot(Global_active_power~date2, type="l", ylab="Global Active Power (kilowatts)", xlab="")
+    plot(Global_active_power~date2, type="l", 
+        ylab="Global Active Power (kilowatts)", xlab="")
       
     plot(Voltage~date2, type="l", ylab="Voltage (volt)", xlab="")
+    
     plot(Sub_metering_1~date2, type="l", 
-    xlab="",ylab="Global Active Power (kilowatts)")
+             xlab="",ylab="Global Active Power (kilowatts)")
+    
     lines(Sub_metering_2~date2,col='Red')
     lines(Sub_metering_3~date2,col='Blue')
+    
     legend("topright", col=c("black", "red", "blue"), lty=1, lwd=2, bty="n",
     legend=c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
+    
     plot(Global_reactive_power~date2, type="l", 
          ylab="Global Rective Power (kilowatts)",xlab="")
   })
